@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Doctor Profiles</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #e9f0f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .profile-card {
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    .profile-card h2 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+    .info {
+      margin: 15px 0;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .label {
+      font-weight: bold;
+      color: #34495e;
+    }
+    @media (max-width: 640px) {
+      .profile-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+    {% for doctor in doctor %}
+
+  <div class="profile-card">
+    <h2>Dr. {{ doctor.name }}</h2>
+    <div class="info">
+      <span class="label">About:</span>
+      <strong>Dr. {{ doctor.name }}</strong> is a dedicated <strong>{{ doctor.specialization }}</strong> with over 15 years of experience. 
+      Currently practicing at <strong>{{ doctor.hospital }}</strong> in <strong>{{ doctor.location }}</strong>, 
+      Dr. {{ doctor.name }} is known for a patient-first approach and deep expertise that has helped hundreds of individuals lead healthier lives.
+    </div>
+    <div class="info"><span class="label">Specialization:</span> {{ doctor.specialization }}</div>
+    <div class="info"><span class="label">Hospital:</span> {{ doctor.hospital }}</div>
+    <div class="info"><span class="label">Location:</span> {{ doctor.location }}</div>
+    <div class="info"><span class="label">Qualification:</span> {{ doctor.qualification }}</div>
+  </div>
+  {% endfor %}
+  
+</body>
+</html>

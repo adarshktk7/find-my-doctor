@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 2px, transparent 2px),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 2px, transparent 2px),
+                radial-gradient(circle at 40% 80%, rgba(255,255,255,0.1) 2px, transparent 2px);
+            background-size: 300px 300px, 400px 400px, 350px 350px;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(20px, -20px); }
+            50% { transform: translate(-20px, 20px); }
+            75% { transform: translate(20px, 20px); }
+        }
+
+        .registration-form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            animation: slideUp 0.8s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .registration-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            border-radius: 20px 20px 0 0;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .registration-form h2 {
+            margin-bottom: 30px;
+            color: #2c3e50;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .registration-form h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .registration-form input,
+        .registration-form select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #fff;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .registration-form input:focus,
+        .registration-form select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .registration-form input:valid,
+        .registration-form select:valid {
+            border-color: #27ae60;
+        }
+
+        /* Floating labels */
+        .input-group label {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            padding: 0 8px;
+            color: #7f8c8d;
+            font-size: 16px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:valid + label,
+        .input-group select:focus + label,
+        .input-group select:valid + label {
+            top: 0;
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Gender select styling */
+        .registration-form select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+        }
+
+        .registration-form select option {
+            padding: 12px;
+            background: #fff;
+        }
+
+        /* Submit button */
+        .registration-form button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .registration-form button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .registration-form button:hover::before {
+            left: 100%;
+        }
+
+        .registration-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .registration-form button:active {
+            transform: translateY(0);
+        }
+
+        /* Input icons */
+        .input-group::before {
+            content: '';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+        }
+
+        .input-group:nth-child(1)::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' /%3E%3C/svg%3E"); }
+        .input-group:nth-child(2)::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z' /%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 11a3 3 0 11-6 0 3 3 0 016 0z' /%3E%3C/svg%3E"); }
+        .input-group:nth-child(3)::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4v10h8V11M9 7h6' /%3E%3C/svg%3E"); }
+        .input-group:nth-child(5)::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' /%3E%3C/svg%3E"); }
+        .input-group:nth-child(6)::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' /%3E%3C/svg%3E"); }
+
+        .input-group:focus-within::before {
+            opacity: 0.8;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .registration-form {
+                margin: 10px;
+                padding: 30px 25px;
+            }
+            
+            .registration-form h2 {
+                font-size: 24px;
+            }
+        }
+
+        /* Loading state for button */
+        .registration-form button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Success animation placeholder */
+        @keyframes checkmark {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body>
+    <form class="registration-form" action="patient_register" method="POST">
+        <h2>Registration</h2>
+        {% csrf_token %}
+        
+        <div class="input-group">
+            <input type="text" name="name" id="name" required>
+            <label for="name">Full Name</label>
+        </div>
+        
+        <div class="input-group">
+            <input type="text" name="place" id="place" required>
+            <label for="place">Location</label>
+        </div>
+        
+        <div class="input-group">
+            <input type="text" name="age" id="age" required>
+            <label for="age">Age</label>
+        </div>
+        
+        <div class="input-group">
+            <select name="gender" id="gender" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="male">Male</option>
+                <option value="femail">Female</option>
+            </select>
+            <label for="gender">Gender</label>
+        </div>
+        
+        <div class="input-group">
+            <input type="text" name="username" id="username" required>
+            <label for="username">Username</label>
+        </div>
+        
+        <div class="input-group">
+            <input type="password" name="password" id="password" required>
+            <label for="password">Password</label>
+        </div>
+        
+        <button type="submit">Create Account</button>
+    </form>
+
+    <script>
+        // Add smooth interactions and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input, select');
+            const form = document.querySelector('.registration-form');
+            
+            // Add focus/blur animations for inputs
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Form submission loading state
+            form.addEventListener('submit', function(e) {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.style.background = 'linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%)';
+                submitBtn.textContent = 'Creating Account...';
+                submitBtn.disabled = true;
+            });
+            
+            // Add typing animation for placeholders
+            const typewriterElements = document.querySelectorAll('label');
+            
+            // Age input validation (numbers only)
+            const ageInput = document.getElementById('age');
+            ageInput.addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            
+            // Username validation (no spaces)
+            const usernameInput = document.getElementById('username');
+            usernameInput.addEventListener('input', function(e) {
+                this.value = this.value.replace(/\s/g, '');
+            });
+            
+            // Add subtle parallax effect to background
+            document.addEventListener('mousemove', function(e) {
+                const moveX = (e.clientX * -1 / 100);
+                const moveY = (e.clientY * -1 / 100);
+                document.body.style.backgroundPosition = `${moveX}px ${moveY}px`;
+            });
+        });
+    </script>
+</body>
+</html>

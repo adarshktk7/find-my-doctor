@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointment Success</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f0f9ff;
+            text-align: center;
+        }
+        .success-box {
+            background-color: #e0ffe0;
+            padding: 30px;
+            border: 2px solid #90ee90;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        h2 {
+            color: #2d862d;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            background-color: #2d862d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+        }
+        a:hover {
+            background-color: #256d25;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-box">
+        <h2>Appointment Confirmed!</h2>
+        <p>Your appointment with <strong>Dr. {{ doctor.name }}</strong> has been successfully booked.</p>
+        <p>check your appointment ststus</p>
+        <a href="{% url 'view_appointments' %}">VIEW APPOINTMENT STATUS</a>
+        <p>Thank you for using our service!</p>
+    </div>
+</body>
+</html>

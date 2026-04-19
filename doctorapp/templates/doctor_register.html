@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+        }
+        .registration-form {
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px; /* Set form width */
+        }
+        .registration-form h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .registration-form input,
+        .registration-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .registration-form button {
+            background-color: #007BFF;
+            color: #ffffff;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .registration-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- <form class="registration-form" action="doctor_register" method="POST">
+        <h2>Doctor Registration</h2>
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Doctor Name" required>
+        <input type="text" name="specilization" placeholder="specilization" required>
+        <input type="text" name="location" placeholder="location" required>
+        <input type="text" name="qualification" placeholder="qualification" required>
+        <input type="text" name="hospital" placeholder="hospital" required>
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button id="btn1" type="submit">Register</button>
+    </form> -->
+    <form class="registration-form" action="doctor_register" method="POST">
+        <h2>Doctor Registration</h2>
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Doctor Name" required>
+
+        <!-- Specialization Dropdown -->
+        <select name="specilization" required>
+            <option value="">-- Select Specialization --</option>
+            <option value="Cardiologist">Cardiologist</option>
+            <option value="Dermatologist">Dermatologist</option>
+            <option value="Neurologist">Neurologist</option>
+            <option value="Pediatrician">Pediatrician</option>
+            <option value="General Physician">General Physician</option>
+            <!-- Add more as needed -->
+        </select>
+
+        <input type="text" name="location" placeholder="location" required>
+        <input type="text" name="qualification" placeholder="qualification" required>
+        <input type="text" name="hospital" placeholder="hospital" required>
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button id="btn1" type="submit">Register</button>
+</form>
+
+   
+    
+
+    
+</body>
+</html>
