@@ -4,102 +4,551 @@
   <meta charset="UTF-8">
   <title>Doctor Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      background-color: #f8f9fa;
+    :root {
+      --primary:      #1a73e8;
+      --accent:       #00c9a7;
+      --sidebar-bg:   #0f1f35;
+      --bg:           #f0f4f8;
+      --card-bg:      #ffffff;
+      --text-dark:    #1e293b;
+      --text-muted:   #64748b;
+      --danger:       #ef4444;
+      --success:      #22c55e;
+      --warning:      #f59e0b;
+      --nav-h:        68px;
+      --sidebar-w:    230px;
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+    }
+
+    /* ══════════════════════════
+       DESKTOP SIDEBAR
+    ══════════════════════════ */
     .sidebar {
-      background-color: #343a40;
+      background: linear-gradient(175deg, #0f1f35 0%, #1a3a5c 100%);
       height: 100vh;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 250px;
-      padding-top: 20px;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      z-index: 100;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.18);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 0 24px;
+      overflow-y: auto;
     }
-    .sidebar h2 {
-      font-size: 1.5rem;
+
+    .sidebar-brand { text-align: center; margin-bottom: 28px; padding: 0 18px; }
+
+    .brand-icon {
+      width: 58px; height: 58px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 24px; color: white;
+      box-shadow: 0 6px 20px rgba(26,115,232,0.4);
     }
-    .sidebar a {
+
+    .sidebar-brand h5 { font-size: 15px; font-weight: 700; color: #e2e8f0; }
+    .sidebar-brand p  { font-size: 11px; color: #64748b; margin-top: 3px; }
+
+    .doc-name-badge {
+      background: rgba(26,115,232,0.18);
+      border: 1px solid rgba(26,115,232,0.3);
+      border-radius: 10px;
+      padding: 8px 14px;
+      margin: 0 14px 20px;
+      text-align: center;
+    }
+
+    .doc-name-badge span {
+      font-size: 13px; font-weight: 600;
+      color: #93c5fd;
+    }
+
+    .sidebar-divider {
+      width: 78%; height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 0 auto 20px;
+    }
+
+    .sidebar-nav { width: 100%; padding: 0 14px; flex: 1; }
+
+    .nav-label {
+      font-size: 10px; font-weight: 600; color: #475569;
+      letter-spacing: 1.3px; text-transform: uppercase;
+      padding: 0 10px; margin-bottom: 8px;
+    }
+
+    .s-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 13px; border-radius: 13px;
+      color: #94a3b8; text-decoration: none;
+      font-size: 13.5px; font-weight: 500; margin-bottom: 4px;
+      transition: all 0.25s ease;
+    }
+
+    .s-link .ico {
+      width: 36px; height: 36px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      background: rgba(255,255,255,0.05);
+      flex-shrink: 0;
+      transition: all 0.25s ease;
+    }
+
+    .s-link:hover, .s-link.active {
+      color: #fff;
+      background: rgba(26,115,232,0.18);
+    }
+
+    .s-link:hover .ico, .s-link.active .ico {
+      background: var(--primary); color: white;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.4);
+    }
+
+    .s-link.danger-link:hover { background: rgba(239,68,68,0.14); color: #fca5a5; }
+    .s-link.danger-link:hover .ico {
+      background: var(--danger);
+      box-shadow: 0 4px 12px rgba(239,68,68,0.4);
+    }
+
+    /* ══════════════════════════
+       MAIN CONTENT
+    ══════════════════════════ */
+    .main-wrap {
+      margin-left: var(--sidebar-w);
+      padding: 34px 28px;
+      min-height: 100vh;
+    }
+
+    /* Welcome Banner */
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--primary) 0%, #0ea5e9 100%);
+      border-radius: 20px;
+      padding: 28px 30px;
       color: white;
-      padding: 15px 20px;
-      text-decoration: none;
-      display: block;
-      transition: background 0.3s;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 6px 24px rgba(26,115,232,0.35);
+      position: relative;
+      overflow: hidden;
     }
-    .sidebar a:hover {
-      background-color: #495057;
+
+    .welcome-banner::after {
+      content: '\f0f0';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      right: 24px; bottom: -10px;
+      font-size: 90px;
+      color: rgba(255,255,255,0.08);
     }
-    .sidebar i {
-      margin-right: 10px;
+
+    .welcome-avatar {
+      width: 60px; height: 60px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; flex-shrink: 0;
     }
-    .main-content {
-      margin-left: 260px;
-      padding: 30px;
+
+    .welcome-banner h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .welcome-banner p  { font-size: 13px; opacity: 0.82; margin: 0; }
+
+    /* Stats Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
     }
-    .card {
-      border-radius: 0.75rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      display: flex; align-items: center; gap: 14px;
     }
-    .list-group-item {
-      border: none;
-      border-bottom: 1px solid #dee2e6;
+
+    .stat-icon {
+      width: 46px; height: 46px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
     }
-    .list-group-item:last-child {
-      border-bottom: none;
+
+    .stat-icon.blue  { background: #dbeafe; color: var(--primary); }
+    .stat-icon.green { background: #dcfce7; color: var(--success); }
+    .stat-icon.amber { background: #fef3c7; color: var(--warning); }
+
+    .stat-info p { font-size: 11px; color: var(--text-muted); font-weight: 500; margin: 0; }
+    .stat-info h4 { font-size: 22px; font-weight: 700; color: var(--text-dark); margin: 0; }
+
+    /* Appointments Card */
+    .appt-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    .appt-card-header {
+      background: linear-gradient(135deg, var(--primary), #0ea5e9);
+      padding: 18px 24px;
+      display: flex; align-items: center; gap: 10px;
+      color: white;
+    }
+
+    .appt-card-header h5 { font-size: 15px; font-weight: 600; margin: 0; }
+
+    .appt-list { padding: 0; }
+
+    .appt-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 22px;
+      border-bottom: 1px solid #f1f5f9;
+      transition: background 0.2s;
+    }
+
+    .appt-item:last-child { border-bottom: none; }
+    .appt-item:hover { background: #f8fafc; }
+
+    .patient-avatar {
+      width: 44px; height: 44px; border-radius: 13px;
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .appt-info { flex: 1; }
+    .appt-info strong { font-size: 14px; font-weight: 600; display: block; color: var(--text-dark); }
+    .appt-info .appt-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .appt-info .appt-symptoms { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    .status-badge {
+      font-size: 11px; font-weight: 600;
+      padding: 4px 12px; border-radius: 20px;
+      background: #dcfce7; color: #16a34a;
+      flex-shrink: 0;
+    }
+
+    .empty-state {
+      text-align: center; padding: 50px 20px; color: var(--text-muted);
+    }
+
+    .empty-state i { font-size: 48px; color: #cbd5e1; display: block; margin-bottom: 14px; }
+    .empty-state p { font-size: 15px; font-weight: 500; }
+
+    /* ══════════════════════════
+       MOBILE TOP BAR
+    ══════════════════════════ */
+    .mobile-topbar {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; height: 58px;
+      background: var(--sidebar-bg);
+      align-items: center; justify-content: space-between;
+      padding: 0 18px; z-index: 200;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.22);
+    }
+
+    .tb-brand { display: flex; align-items: center; gap: 10px; color: white; }
+
+    .tb-icon {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; color: white;
+    }
+
+    .tb-brand span { font-size: 15px; font-weight: 700; }
+    .tb-doc { font-size: 12px; color: #64748b; }
+
+    /* ══════════════════════════
+       MOBILE BOTTOM NAV
+    ══════════════════════════ */
+    .bottom-nav {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: white;
+      border-radius: 22px 22px 0 0;
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.10);
+      z-index: 200;
+    }
+
+    .bn-inner {
+      display: flex; height: 100%;
+      align-items: center; justify-content: space-around;
+      padding: 0 4px;
+    }
+
+    .bn-item {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 3px; flex: 1; max-width: 72px;
+      color: #94a3b8; text-decoration: none;
+      font-size: 10px; font-weight: 500;
+      padding: 8px 4px; border-radius: 14px;
+      transition: all 0.2s;
+      background: none; border: none;
+      font-family: 'Poppins', sans-serif; cursor: pointer;
+    }
+
+    .bn-item i { font-size: 20px; transition: transform 0.2s; }
+    .bn-item:hover, .bn-item.active { color: var(--primary); }
+    .bn-item:hover i, .bn-item.active i { transform: translateY(-2px); }
+    .bn-item.bn-danger { color: #f87171; }
+    .bn-item.bn-danger:hover { color: var(--danger); }
+
+    /* Center FAB */
+    .bn-fab-wrap {
+      flex: 1; max-width: 72px;
+      display: flex; justify-content: center; align-items: center;
+    }
+
+    .bn-fab {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--primary), #0ea5e9);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 20px; text-decoration: none;
+      box-shadow: 0 5px 18px rgba(26,115,232,0.45);
+      margin-bottom: 16px;
+      transition: all 0.2s; border: none; cursor: pointer;
+    }
+
+    .bn-fab:hover {
+      color: white;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(26,115,232,0.5);
+    }
+
+    /* ══════════════════════════
+       RESPONSIVE
+    ══════════════════════════ */
+    @media (max-width: 768px) {
+      .sidebar { display: none !important; }
+      .mobile-topbar { display: flex; }
+      .bottom-nav { display: block; }
+
+      .main-wrap {
+        margin-left: 0;
+        padding: 70px 14px calc(var(--nav-h) + 16px);
+      }
+
+      .welcome-banner { padding: 20px; gap: 14px; border-radius: 16px; }
+      .welcome-banner h2 { font-size: 17px; }
+      .welcome-avatar { width: 50px; height: 50px; font-size: 20px; border-radius: 14px; }
+
+      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .stat-card { padding: 14px 12px; gap: 10px; border-radius: 14px; }
+      .stat-icon { width: 38px; height: 38px; font-size: 16px; border-radius: 11px; }
+      .stat-info h4 { font-size: 18px; }
+      .stat-info p { font-size: 10px; }
+
+      .appt-item { padding: 14px 16px; gap: 12px; }
+      .appt-card-header { padding: 15px 18px; }
+    }
+
+    @media (max-width: 400px) {
+      .bn-item { font-size: 9px; }
+      .bn-item i { font-size: 18px; }
+      .stats-row { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
 </head>
 <body>
 
-<!-- Sidebar -->
-<div class="sidebar">
+<!-- ── MOBILE TOP BAR ── -->
+<div class="mobile-topbar">
+  <div class="tb-brand">
+    <div class="tb-icon"><i class="fas fa-stethoscope"></i></div>
+    <span>MediCare</span>
+  </div>
   {% if doctor %}
-    <h2 class="text-white text-center mb-4">Dr. {{ doctor.name }}</h2>
-  {% else %}
-    <p class="text-white text-center">Doctor profile not found.</p>
+    <div class="tb-doc">Dr. {{ doctor.name }}</div>
   {% endif %}
-  <a href="#"><i class="fas fa-home"></i> Dashboard</a>
-  <a href="{% url 'doctorprofile' %}"><i class="fas fa-user"></i> Profile</a>
-  <a href="{% url 'doc_view_appointments' %}"><i class="fas fa-calendar-check"></i> Upcoming Appointments</a>
-  <a href="{% url 'update_doctor' %}"><i class="fas fa-edit"></i> Update Profile</a>
-  <a href="{% url 'lgout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
 
-<!-- Main Content -->
-<div class="main-content">
-  <div class="container">
-    <h2 class="mb-4">Welcome, Dr. {{ doctor.name }}</h2>
+<div class="container-fluid p-0">
+  <div class="d-flex">
 
-    <!-- Approved Appointments -->
-    <div class="card">
-      <div class="card-header bg-primary text-white">
-        <h5 class="mb-0"><i class="fas fa-calendar-check"></i> Approved Appointments</h5>
+    <!-- ── DESKTOP SIDEBAR ── -->
+    <div class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="fas fa-stethoscope"></i></div>
+        <h5>MediCare</h5>
+        <p>Doctor Portal</p>
       </div>
-      <div class="card-body">
-        <ul class="list-group">
-          {% for appointment in appointments %}
-            <li class="list-group-item">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>{{ appointment.patient.name }}</strong> <br>
-                  <small class="text-muted">{{ appointment.date }} at {{ appointment.time }}</small><br>
-                  <span class="text-muted">Symptoms: {{ appointment.symptoms }}</span>
-                </div>
-                <span class="badge bg-success">{{ appointment.status }}</span>
-              </div>
-            </li>
-          {% empty %}
-            <li class="list-group-item text-center">No approved appointments.</li>
-          {% endfor %}
-        </ul>
+
+      {% if doctor %}
+        <div class="doc-name-badge">
+          <span><i class="fas fa-user-md me-1"></i> Dr. {{ doctor.name }}</span>
+        </div>
+      {% endif %}
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-nav">
+        <div class="nav-label">Navigation</div>
+
+        <a href="#" class="s-link active">
+          <div class="ico"><i class="fas fa-home"></i></div>
+          Dashboard
+        </a>
+        <a href="{% url 'doctorprofile' %}" class="s-link">
+          <div class="ico"><i class="fas fa-user"></i></div>
+          Profile
+        </a>
+        <a href="{% url 'doc_view_appointments' %}" class="s-link">
+          <div class="ico"><i class="fas fa-calendar-check"></i></div>
+          Appointments
+        </a>
+        <a href="{% url 'update_doctor' %}" class="s-link">
+          <div class="ico"><i class="fas fa-user-edit"></i></div>
+          Update Profile
+        </a>
+
+        <div class="sidebar-divider" style="margin-top:16px;"></div>
+
+        <a href="{% url 'user_logout' %}" class="s-link danger-link">
+          <div class="ico"><i class="fas fa-sign-out-alt"></i></div>
+          Logout
+        </a>
       </div>
     </div>
+
+    <!-- ── MAIN CONTENT ── -->
+    <div class="main-wrap w-100">
+
+      <!-- Welcome Banner -->
+      <div class="welcome-banner">
+        <div class="welcome-avatar"><i class="fas fa-user-md"></i></div>
+        <div>
+          <h2>Welcome, Dr. {{ doctor.name }} 👋</h2>
+          <p>Here's your appointment overview for today.</p>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fas fa-calendar-check"></i></div>
+          <div class="stat-info">
+            <p>Total</p>
+            <h4>{{ appointments|length }}</h4>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+          <div class="stat-info">
+            <p>Approved</p>
+            <h4>{{ appointments|length }}</h4>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber"><i class="fas fa-clock"></i></div>
+          <div class="stat-info">
+            <p>Pending</p>
+            <h4>0</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Appointments Card -->
+      <div class="appt-card">
+        <div class="appt-card-header">
+          <i class="fas fa-calendar-check"></i>
+          <h5>Approved Appointments</h5>
+        </div>
+        <div class="appt-list">
+          {% for appointment in appointments %}
+            <div class="appt-item">
+              <div class="patient-avatar"><i class="fas fa-user"></i></div>
+              <div class="appt-info">
+                <strong>{{ appointment.patient.name }}</strong>
+                <div class="appt-meta">
+                  <i class="fas fa-calendar me-1" style="color:var(--primary);font-size:11px"></i>
+                  {{ appointment.date }} &nbsp;
+                  <i class="fas fa-clock me-1" style="color:var(--primary);font-size:11px"></i>
+                  {{ appointment.time }}
+                </div>
+                <div class="appt-symptoms">
+                  <i class="fas fa-notes-medical me-1" style="color:var(--text-muted);font-size:11px"></i>
+                  {{ appointment.symptoms }}
+                </div>
+              </div>
+              <span class="status-badge">{{ appointment.status }}</span>
+            </div>
+          {% empty %}
+            <div class="empty-state">
+              <i class="fas fa-calendar-xmark"></i>
+              <p>No approved appointments yet.</p>
+              <small style="color:#94a3b8">New bookings will appear here.</small>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div><!-- end main-wrap -->
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- ── MOBILE BOTTOM NAV ── -->
+<nav class="bottom-nav">
+  <div class="bn-inner">
+
+    <a href="{% url 'doctorprofile' %}" class="bn-item">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+
+    <a href="{% url 'doc_view_appointments' %}" class="bn-item">
+      <i class="fas fa-calendar-check"></i>
+      <span>Appointments</span>
+    </a>
+
+    <!-- Center FAB - Dashboard -->
+    <div class="bn-fab-wrap">
+      <a href="#" class="bn-fab">
+        <i class="fas fa-home"></i>
+      </a>
+    </div>
+
+    <a href="{% url 'update_doctor' %}" class="bn-item">
+      <i class="fas fa-user-edit"></i>
+      <span>Update</span>
+    </a>
+
+    <a href="{% url 'user_logout' %}" class="bn-item bn-danger">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+
+  </div>
+</nav>
+
 </body>
 </html>

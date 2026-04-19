@@ -148,7 +148,7 @@ def view_appointments(request):
     appointment=Appointment.objects.filter(patient=patient)
     return render(request,'view_appointments.html',{'appointment':appointment})
 
-def lgout(request):
+def user_logout(request):
     logout(request)
     return redirect (logins)
 
